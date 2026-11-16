@@ -1,0 +1,54 @@
+# configs/ppo_mid.yaml
+# Cấu hình thí nghiệm PPO với mức phạt va chạm TRUNG BÌNH (-5).
+# Đây là config "reference" / benchmark chính của thí nghiệm.
+# Baseline agents cũng được đánh giá chính trên config này.
+#
+# QUAN TRỌNG về normalize_reward=false:
+#   Reward mỗi bước nằm trong khoảng [-5, 0.5].
+#   mean_reward chỉ có ý nghĩa khi so sánh TRONG CÙNG config này.
+
+meta:
+  name: "ppo_mid"
+  description: "PPO with medium collision penalty (collision_reward=-5) — reference config"
+
+env:
+  id: "highway-v0"
+  # --- Reward components ---
+  collision_reward: -5.0        # ← BIẾN ĐỘC LẬP: mức phạt TRUNG BÌNH
+  right_lane_reward: 0.1
+  high_speed_reward: 0.4
+  lane_change_reward: 0.0
+  normalize_reward: false
+  reward_speed_range: [20, 30]
+  # --- Môi trường ---
+  lanes_count: 4
+  vehicles_count: 50
+  duration: 40
+  ego_spacing: 2
+  vehicles_density: 1
+  offroad_terminal: false
+  # --- Observation ---
+  observation:
+    type: "Kinematics"
+    vehicles_count: 5
+    features: ["presence", "x", "y", "vx", "vy"]
+    normalize: true
+
+train:
+  total_timesteps: 100000
+  seeds: [0, 1, 2]
+  algorithm: "PPO"
+  policy: "MlpPolicy"
+  n_steps: 256
+  batch_size: 64
+  n_epochs: 10
+  learning_rate: 0.0003
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.01
+  verbose: 1
+
+eval:
+  n_episodes: 50
+  seed_start: 100
