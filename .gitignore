@@ -1,0 +1,35 @@
+# Virtual environment
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Training artifacts (large files)
+*.zip
+models/
+
+# Results (tracked selectively)
+# results/*.csv and results/*.png are tracked
+# results/*.gif are too large
+results/*.gif
+
+# Jupyter
+.ipynb_checkpoints/
