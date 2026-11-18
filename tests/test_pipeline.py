@@ -114,3 +114,18 @@ def test_aggregate_mean_std(tmp_path: Path) -> None:
     assert agg.loc["ppo_mid", "collision_rate_mean"] == pytest.approx(0.3)
     assert agg.loc["ppo_mid", "collision_rate_std"] == pytest.approx(0.1)
     assert agg.loc["random", "mean_speed_std"] == 0
+
+
+def test_latest_checkpoint_picks_most_steps(tmp_path: Path) -> None:
+    """_latest_checkpoint compares step counts numerically and ignores other runs."""
+    from src.train import _latest_checkpoint
+
+    for name in [
+        "ppo_mid_seed0_9000_steps.zip",
+        "ppo_mid_seed0_10000_steps.zip",   # 10000 > 9000 (so sánh số, không so sánh chuỗi)
+        "ppo_mid_seed1_90000_steps.zip",   # run khác, phải bị bỏ qua
+        "ppo_mid_seed0_notes.zip",
+    ]:
+        (tmp_path / name).touch()
+    assert _latest_checkpoint(tmp_path, "ppo_mid_seed0").name == "ppo_mid_seed0_10000_steps.zip"
+    assert _latest_checkpoint(tmp_path, "ppo_high_seed0") is None
