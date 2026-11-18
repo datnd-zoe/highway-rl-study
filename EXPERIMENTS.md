@@ -17,7 +17,7 @@ scripts (`results/eval_summary.csv`); never fill cells by hand from memory.
 
 | Date | Config | Seed | Steps | Wall time | Notes |
 |---|---|---|---|---|---|
-| TODO | ppo_mid | 0 | 100,000 | TODO | planned pilot run: measure time and inspect the learning curve first |
+| 2026-11-17 22:45 -> 2026-11-18 06:09 | ppo_mid | 0 | 100,096 (390 x n_steps=256 rounds up from 100,000) | 7 h 24 min (~0.27 s/step) | pilot run; no errors; checkpoints every 10k steps. Last training `ep_rew_mean` 4.77, `explained_variance` 0.61 |
 
 ## Evaluation runs (50 episodes, seeds 100-149)
 
@@ -26,9 +26,19 @@ scripts (`results/eval_summary.csv`); never fill cells by hand from memory.
 | TODO | random | baseline | - | TODO | TODO | TODO | TODO | |
 | TODO | defensive | baseline | - | TODO | TODO | TODO | TODO | |
 | TODO | ppo | ppo_low | 0 / 1 / 2 | TODO | TODO | TODO | TODO | |
-| TODO | ppo | ppo_mid | 0 / 1 / 2 | TODO | TODO | TODO | TODO | |
+| 2026-11-18 | ppo | ppo_mid | 0 | 0.10 | 20.48 | 36.92 | 3.74 | pilot run, single seed; `mean_reward` only comparable within ppo_mid |
+| TODO | ppo | ppo_mid | 1 / 2 | TODO | TODO | TODO | TODO | |
 | TODO | ppo | ppo_high | 0 / 1 / 2 | TODO | TODO | TODO | TODO | |
 
 ## Observations
 
-TODO - fill in after the full runs.
+- **Pilot (ppo_mid, seed 0, single seed - no conclusions yet).** The agent
+  collided in 10% of the 50 evaluation episodes, but its mean speed (20.48 m/s)
+  is close to the bottom of `reward_speed_range` [20, 30], where the speed
+  bonus is zero. It may have learned to drive slowly to stay safe. This is a
+  single run, so it must be checked against seeds 1 and 2 and against the
+  low / high penalty configs before drawing any conclusion.
+- Compute: ~7.5 h per 100k-step run on this CPU, so the remaining 8 runs need
+  parallel processes or a reduced budget.
+
+TODO - fill in the rest after the full runs.
