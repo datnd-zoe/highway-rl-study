@@ -1,0 +1,2 @@
+agent,config,train_seed,n_episodes,collision_rate,mean_speed,mean_episode_length,mean_reward
+ppo,ppo_mid,0,50,0.1,20.480337812939034,36.92,3.7421158296114503
