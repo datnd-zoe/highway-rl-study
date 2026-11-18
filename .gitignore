@@ -33,3 +33,6 @@ results/*.gif
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Console logs of long runs (learning-curve data lives in results/train_logs/)
+*.log
